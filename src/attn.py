@@ -2,10 +2,12 @@ import torch
 import math
 
 class Attention(torch.nn.Module):
+    #From Nystromformer: https://arxiv.org/abs/2102.03902
     def __init__(self, size, nlandmarks=8):
         super().__init__()
         self.size = size
         self.nlandmarks = nlandmarks
+        
     def forward(self, q, k, v):
         B, T, C = q.shape
         q = q.reshape(B, C//self.size, T, self.size)
