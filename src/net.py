@@ -3,8 +3,6 @@ import math
 from attn import Attention
 from torch.cuda import amp
 
-
-
 class SelfAttention(torch.nn.Module):
     def __init__(self, size=64*64*3, nheads=4):
         super().__init__()
