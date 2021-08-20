@@ -4,6 +4,7 @@ import torch.nn.functional as F
 import torchvision.io as Tvio
 import numpy as np
 import multiprocessing as mp
+
 class Dataset(torch.utils.data.Dataset):
     def __init__(self, directory='../data/*', get_subdirs=True, size=(16,16), max_ctx_length=4096, dry_run=False):
         print("Loading dataset...")
@@ -17,6 +18,7 @@ class Dataset(torch.utils.data.Dataset):
             self.data = self.data_temp
             self.max_ctx_length = max_ctx_length
         self.size = size
+    
     def extract_from_data(self, i):
         i_data = self.data[i]
         file_data = glob.glob(i_data+"/*")
@@ -25,6 +27,7 @@ class Dataset(torch.utils.data.Dataset):
 
     def __len__(self):
         return len(self.data)*self.size[0]-self.max_ctx_length-1
+    
     def __getitem__(self, key):
         frame_start = int(np.floor(key / self.size[0]))
         patch_start = int(np.mod(key, self.size[0]))
@@ -48,5 +51,4 @@ class Dataset(torch.utils.data.Dataset):
 
 if __name__ == "__main__":
     dataset = Dataset(max_ctx_length=4096, size=(16,16), dry_run=True)
-
     print(dataset.__getitem__(8)[0].shape)
