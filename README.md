@@ -1,2 +1,2 @@
 # PythiaFramework
-Video Language Model Framework - Scraper and data are closed-source.
+Video Language Model Framework - Scraper and data are closed-source. Most likely will not update this repository...
