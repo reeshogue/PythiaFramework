@@ -50,18 +50,3 @@ class Attention(torch.nn.Module):
             KV = torch.matmul(K, V)
             V = torch.matmul(0.25 * V, 13 * I - torch.matmul(KV, 15 * I - torch.matmul(KV, 7 * I - KV)))
         return V
-
-class ActualAttention(torch.nn.Module):
-    def forward(self, q, k, v):
-        return torch.matmul(torch.softmax(torch.matmul(q, k.transpose(1,2)), -1), v)
-        
-if __name__ == "__main__":
-    attn = Attention(16*16*3)
-    actual_attention = ActualAttention()
-    Q = torch.randn((1,8192,16*16*3))
-    K = torch.randn((1,8192,16*16*3))
-    V = torch.randn((1,8192,16*16*3))
-
-    print(torch.nn.functional.mse_loss(attn(Q,K,V), actual_attention(Q,K,V)))
-    # print(attn(Q,K,V))
-    # print(actual_attention(Q,K,V))
